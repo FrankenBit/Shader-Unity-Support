@@ -61,10 +61,11 @@ namespace ShaderCompletionCommandHandler
 
         public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
         {
-	        for(int i = 0; i < cCmds;i++)
+            ThreadHelper.ThrowIfNotOnUIThread();
+	        for ( int i = 0; i < cCmds;i++)
 	        {
 		        var status = QueryStatusImpl(pguidCmdGroup, prgCmds[i]);
-		        if (status == VSConstants.E_FAIL)
+		        if ( status == VSConstants.E_FAIL)
 			        return m_nextCommandHandler.QueryStatus(ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
 		        else
 			        prgCmds[i].cmdf = (uint)status;
@@ -90,7 +91,8 @@ namespace ShaderCompletionCommandHandler
 
         public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
-            if (VsShellUtilities.IsInAutomationFunction(m_provider.ServiceProvider))
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if ( VsShellUtilities.IsInAutomationFunction(m_provider.ServiceProvider))
             {
                 return m_nextCommandHandler.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
             }
@@ -122,6 +124,7 @@ namespace ShaderCompletionCommandHandler
                 }
             }
 
+            ThreadHelper.ThrowIfNotOnUIThread();
             int retVal = m_nextCommandHandler.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
             bool handled = false;
             if(!typedChar.Equals(char.MinValue) && char.IsLetterOrDigit(typedChar) || nCmdIDEnum == VSConstants.VSStd2KCmdID.COMPLETEWORD)

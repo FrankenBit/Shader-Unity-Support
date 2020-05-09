@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.Composition;
-using Microsoft.VisualStudio.Text.Classification;
+﻿using System.ComponentModel.Composition;
+
 using Microsoft.VisualStudio.Utilities;
 
 namespace ShaderContentType
@@ -14,22 +9,21 @@ namespace ShaderContentType
         [Export]
         [Name("cgshader")]
         [BaseDefinition("C/C++")]
-        internal static ContentTypeDefinition hidingContentTypeDefinition;
+        internal static ContentTypeDefinition hidingContentTypeDefinition = default;
 
         [Export]
         [FileExtension(".shader")]
         [ContentType("cgshader")]
-        internal static FileExtensionToContentTypeDefinition shaderFileExtensionDefinition;
+        internal static FileExtensionToContentTypeDefinition shaderFileExtensionDefinition = default;
 
         [Export]
         [FileExtension(".cginc")]
         [ContentType("cgshader")]
-        internal static FileExtensionToContentTypeDefinition cgincFileExtensionDefinition;
-        
+        internal static FileExtensionToContentTypeDefinition cgincFileExtensionDefinition = default;
+
         [Export]
         [FileExtension(".compute")]
         [ContentType("cgshader")]
-        internal static FileExtensionToContentTypeDefinition shaderFileExtensionDefinitionForCompute;
-    
+        internal static FileExtensionToContentTypeDefinition shaderFileExtensionDefinitionForCompute = default;
     }
 }

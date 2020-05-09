@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 using EnvDTE80;
 using EnvDTE;
 
+using Microsoft.VisualStudio.Shell;
+
 internal class DebugLog
 {
     private static Lazy<Action<string>> _Logger = new Lazy<Action<string>>( () => GetWindow().OutputString );
@@ -48,6 +50,7 @@ internal class DebugLog
     private static OutputWindowPane GetWindow()
     {
         var dte = (DTE2) Marshal.GetActiveObject( "VisualStudio.DTE" );
+        ThreadHelper.ThrowIfNotOnUIThread();
         return dte.ToolWindows.OutputWindow.ActivePane;
     }
 }
